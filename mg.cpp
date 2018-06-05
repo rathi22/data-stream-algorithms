@@ -57,7 +57,7 @@ int main(){
 		it->second = 0;	// Initialization for Second pass.
 	}
 
-	// A second pass over the same stream 
+	// A second pass over the same stream to calculate exact frequencies of the elements in question.
 	for(int i=0;i<m;i++){
 		j = a[i];
 		if(keys.count(j))
