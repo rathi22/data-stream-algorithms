@@ -11,7 +11,9 @@ using namespace std;
 int N = 1024;
 int LOG_N = 10;
 int K = 1024;
-int a,b;
+// Implementation with Median Trick
+#define t 1000	// Number of trials
+int a[t],b[t];
 
 // Represents the polynomial: D^10 + D^3 + 1
 int poly = 1 + 8 + 1024;
@@ -39,12 +41,12 @@ int mod(int x){
 }
 
 // Hash function from 2-universal hash family
-int h(int x){
+int h(int x, int idx){
 	int f=0;
 	for(int i=0;i<LOG_N;i++)
 		if(x & (1<<i))
-			f = add(f,a*(1<<i));
-	f = add(f,b);
+			f = add(f,a[idx]*(1<<i));
+	f = add(f,b[idx]);
 	return mod(f)%K;
 }
 
@@ -60,18 +62,25 @@ int zeros(int x){
 
 int main(){
 	srand(time(NULL));
-	a = rand()%N;
-	b = rand()%N;
-	int m,j,z=0,p;
+	for(int i=0;i<t;i++){
+		a[i] = rand()%N;
+		b[i] = rand()%N;
+	}	
+
+	vector<int> z(t,0);
+	int m,j,p;
 	cin>>m;
 	while(m--){
 		cin>>j;
-		p = zeros(h(j));
-		cout<<"Hashed Value: "<<h(j)<<", Zeros: "<<p<<endl;
-		if(p>z)
-			z = p;
+		for(int i=0;i<t;i++){
+			p = zeros(h(j,i)+1);
+			if(p>z[i])
+				z[i] = p;
+		}
 	}
-	// Our estimate for number of distinct elements
-	int ans = (1<<z)*sqrt(2);
+
+	sort(z.begin(),z.end());
+	// Our estimate for number of distinct elements (using Median Trick)
+	int ans = (1<<z[t/2])*sqrt(2);
 	cout<< "Ans: " << ans <<endl;
 }
