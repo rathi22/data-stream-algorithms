@@ -2,7 +2,10 @@
 	Author: Rajat Rathi, CSE Undergraduate at IIT Bombay
 */
 
-// BJKST algorithm to estimate the number of distinct elements
+/* BJKST algorithm to estimate the number of distinct elements:
+	This is an (epsilon,delta) approximation algorithm as opposed to
+	the previous AMS algorithm for the same problem.
+	*/	
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -59,9 +62,12 @@ int zeros(int x){
 
 int main(){
 	srand(time(NULL));
+	// Constants
 	double EPS = 1.0;
 	int c = 48;
 	int b = 36;
+
+	// Initialization:
 	int MAX = c/(EPS*EPS);
 	hashfn h(16384,16384,14,17475);
 	hashfn g(16384,(int)(b*14*14/EPS),14,17475);
@@ -69,6 +75,7 @@ int main(){
 	set<pair<int,int> > B;
 	set<pair<int,int> >::iterator it;
 
+	// Process:
 	int m,j,p;
 	cin>>m;
 	while(m--){
@@ -88,5 +95,9 @@ int main(){
 		}
 	}
 
+	// Output:
 	cout<< B.size()*(1<<z) <<endl;
+	/* Accuracy of output can be improved by using
+		the Median Trick. (Can be found in 'distinct-elements.cpp')
+	*/
 }
