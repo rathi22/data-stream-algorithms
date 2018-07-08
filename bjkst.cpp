@@ -63,6 +63,7 @@ int zeros(int x){
 int main(){
 	srand(time(NULL));
 	// Constants
+	// To improve accuracy, we can tradeoff space by decreasing epsilon
 	double EPS = 1.0;
 	int c = 48;
 	int b = 36;
